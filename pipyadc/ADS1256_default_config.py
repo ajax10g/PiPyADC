@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from .ADS1256_definitions import *
+
 ################  Raspberry Pi Physical Interface Properties  #################
 # SPI bus configuration and GPIO pins used for the ADS1255/ADS1256.
 # These defaults are used by the constructor of the ADS1256 class.
@@ -14,9 +15,9 @@ from .ADS1256_definitions import *
 # SPI hardware. For the Waveshare board this pin is not even connected, so this
 # code does not use hardware-controlled CS and this is a don't care value.
 # FIXME: Implement hardware chip select as an option.
-SPI_CHANNEL   = 1
+SPI_CHANNEL = 1
 # SPI_MODE specifies clock polarity and phase; MODE=1 <=> CPOL=0, CPHA=1
-SPI_MODE      = 1
+SPI_MODE = 1
 # SPI clock rate in Hz. The ADS1256 supports a minimum of 1/10th of the output
 # sample data rate in Hz to 1/4th of the oscillator CLKIN_FREQUENCY which
 # results in a value of 1920000 Hz for the Waveshare board. However, since
@@ -25,18 +26,18 @@ SPI_MODE      = 1
 # for the ADS1256. Choosing 250MHz/256 = 976563 Hz is a safe choice.
 SPI_FREQUENCY = 976563
 # Risking the slightly out-of-spec speed:
-#SPI_FREQUENCY = 1953125
+# SPI_FREQUENCY = 1953125
 
 # The RPI GPIOs used: All of these are optional and must be set to None if not
 # used. In This case, the inputs must be hardwired to the correct logic level
 # and a sufficient DRDY_TIMEOUT must be specified further below.
 # Obviously, when not using hardware polling of the DRDY signal, acquisition
 # will be much slower with long delays. See datasheet..
-#CS_PIN      = None
-CS_PIN      = 15 
-DRDY_PIN    = 11
-RESET_PIN   = 12
-PDWN_PIN    = 13
+# CS_PIN      = None
+CS_PIN = 15
+DRDY_PIN = 11
+RESET_PIN = 12
+PDWN_PIN = 13
 ###############################################################################
 
 ##################  ADS1256 Constant Configuration Settings  ###################
@@ -44,10 +45,10 @@ PDWN_PIN    = 13
 # does not respond. See table 21 of ADS1256 datasheet: When using a
 # sample rate of 2.5 SPS and issuing a self calibration command,
 # the timeout can be up to 1228 milliseconds:
-DRDY_TIMEOUT    = 2
+DRDY_TIMEOUT = 2
 # Optional delay in seconds to avoid busy wait and reduce CPU load when
 # polling the DRDY pin. Default is 0.000001 or 1 µs (timing not accurate)
-DRDY_DELAY      = 0.000001
+DRDY_DELAY = 0.000001
 # Master clock rate in Hz. Default is 7680000:
 CLKIN_FREQUENCY = 7680000
 ################################################################################
@@ -72,7 +73,7 @@ gain_flags = GAIN_1
 # THIS REQUIRES an additional timeout via WaitDRDY() after each such operation.
 # Note: BUFFER_ENABLE means the ADC input voltage range is limited
 # to (AVDD-2V),see datasheet
-status = BUFFER_ENABLE
+status = AUTOCAL_ENABLE
 # REG_MUX:
 # Default: positive input = AIN0, negative input = AINCOM
 mux = POS_AIN0 | NEG_AINCOM
@@ -80,9 +81,9 @@ mux = POS_AIN0 | NEG_AINCOM
 # Disable clk out signal (not needed, source of disturbance),
 # sensor detect current sources disabled, gain setting as defined above:
 adcon = CLKOUT_OFF | SDCS_OFF | gain_flags
-# REG_DRATE: 
+# REG_DRATE:
 # 10 SPS places a filter zero at 50 Hz and 60 Hz for line noise rejection
-drate  = DRATE_10
+drate = DRATE_10
 # REG_IO: No GPIOs needed
 gpio = 0x00
 ################################################################################
@@ -255,5 +256,3 @@ Available Registers with address definitions:
         DRATE_5         = 0b00010011 # 5SPS
         DRATE_2_5       = 0b00000011 # 2.5SPS
 """
-
-
